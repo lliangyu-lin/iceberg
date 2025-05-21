@@ -1,0 +1,17 @@
+{
+  "name": "insert_simple_verify",
+  "description": "Scan table and verify 2 inserted rows",
+  "actions": [
+    {
+      "type": "scan_table",
+      "tableName": "default.insert_test",
+      "expect": {
+        "record_count": 2,
+        "records": [
+          { "id": 1, "name": "Alice" },
+          { "id": 2, "name": "Bob" }
+        ]
+      }
+    }
+  ]
+}

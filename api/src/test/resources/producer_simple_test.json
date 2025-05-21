@@ -1,0 +1,24 @@
+{
+  "name": "insert_simple",
+  "description": "Create table and insert 2 rows using Spark",
+  "actions": [
+    {
+      "type": "create_table",
+      "tableName": "default.insert_test",
+      "schema": {
+        "fields": [
+          { "id": 1, "name": "id", "type": "long" },
+          { "id": 2, "name": "name", "type": "string" }
+        ]
+      }
+    },
+    {
+      "type": "insert_rows",
+      "tableName": "default.insert_test",
+      "rows": [
+        { "id": 1, "name": "Alice" },
+        { "id": 2, "name": "Bob" }
+      ]
+    }
+  ]
+}
