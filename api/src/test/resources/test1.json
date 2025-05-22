@@ -1,11 +1,31 @@
 {
-  "create_table": {
-
-  },
-  "write_data": {
-
-  },
-  "compaction": {
-
-  }
+  "testName": "basic_write_and_read",
+  "actions": [
+    {
+      "type": "create_table",
+      "tableId": "default.test",
+      "schema": { "fields": [] },
+      "location": "",
+      "partitionSpec": {},
+      "properties": {}
+    },
+    {
+      "type": "write_data",
+      "fileFormat": "parquet",
+      "rows": [{ "id": 1, "name": "Alice" }]
+    },
+    {
+      "type": "write_data",
+      "fileFormat": "parquet",
+      "rows": [{ "id": 2, "name": "Bob" }]
+    },
+    {
+      "type": "read_data",
+      "tableId": "default.test",
+      "expectedRows": [
+        { "id": 1, "name": "Alice" },
+        { "id": 2, "name": "Bob" }
+      ]
+    }
+  ]
 }
