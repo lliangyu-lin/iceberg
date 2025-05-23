@@ -1,0 +1,20 @@
+{
+  "actions": [
+    {
+      "type": "create_table",
+      "tableId": "default.test",
+      "schema": [{
+        "name": "id",
+        "type": "int",
+        "required": false
+      },{
+        "name": "name",
+        "type": "string",
+        "required": true
+      }],
+      "location": "",
+      "partitionSpec": {},
+      "properties": {}
+    }
+  ]
+}

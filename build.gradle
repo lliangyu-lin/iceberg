@@ -417,6 +417,20 @@ project(':iceberg-data') {
     testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
   }
 
+  sourceSets {
+    integration {
+      java.srcDir "$projectDir/src/integration/java"
+      resources.srcDir "$projectDir/src/integration/resources"
+      compileClasspath += main.output + test.output
+      runtimeClasspath += main.output + test.output
+    }
+  }
+
+  configurations {
+    integrationImplementation.extendsFrom testImplementation
+    integrationRuntime.extendsFrom testRuntimeOnly
+  }
+
   test {
     useJUnitPlatform()
     // Only for TestSplitScan as of Gradle 5.0+

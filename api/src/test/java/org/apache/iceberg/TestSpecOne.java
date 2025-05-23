@@ -18,40 +18,4 @@
  */
 package org.apache.iceberg;
 
-import java.util.List;
-import java.util.Map;
-
-public class InteropTestSpec {
-  public String name;
-  public String description;
-  public List<Action> actions;
-
-  public static class Action {
-    public String type;
-
-    // for create_table
-    public String tableName;
-    public SchemaSpec schema;
-
-    // for insert_rows
-    public List<Map<String, Object>> rows;
-
-    // For scan_table
-    public Expect expect;
-  }
-
-  public static class SchemaSpec {
-    public List<Field> fields;
-  }
-
-  public static class Field {
-    public int id;
-    public String name;
-    public String type;
-  }
-
-  public static class Expect {
-    public int recordCount;
-    public List<Map<String, Object>> records;
-  }
-}
+public class TestSpecOne {}

@@ -1,10 +1,17 @@
 {
-  "testName": "basic_write_and_read",
   "actions": [
     {
       "type": "create_table",
       "tableId": "default.test",
-      "schema": { "fields": [] },
+      "schema": [{
+        "name": "id",
+        "type": "int",
+        "required": false
+      },{
+        "name": "name",
+        "type": "string",
+        "required": true
+      }],
       "location": "",
       "partitionSpec": {},
       "properties": {}
@@ -15,14 +22,21 @@
       "rows": [{ "id": 1, "name": "Alice" }]
     },
     {
-      "type": "write_data",
-      "fileFormat": "parquet",
-      "rows": [{ "id": 2, "name": "Bob" }]
+      "type": "append",
+      "file": "/path/to/file1"
+    },
+    {
+      "type": "scan",
+      "tableId": "default.test",
+      "expected": [
+        "/path/to/file1",
+        "/path/to/file2"
+      ]
     },
     {
       "type": "read_data",
       "tableId": "default.test",
-      "expectedRows": [
+      "expected": [
         { "id": 1, "name": "Alice" },
         { "id": 2, "name": "Bob" }
       ]
