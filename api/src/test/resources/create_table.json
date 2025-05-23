@@ -6,15 +6,21 @@
       "schema": [{
         "name": "id",
         "type": "int",
-        "required": false
+        "required": false,
+        "doc": "This is an identifier"
       },{
         "name": "name",
         "type": "string",
         "required": true
       }],
-      "location": "",
+      "location": "/tmp/iceberg/default/test",
       "partitionSpec": {},
       "properties": {}
+    },
+    {
+      "type": "drop_table",
+      "tableId": "default.test",
+      "purge": true
     }
   ]
 }

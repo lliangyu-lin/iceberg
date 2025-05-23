@@ -1,0 +1,9 @@
+{
+  "actions": [
+    {
+      "type": "drop_table",
+      "tableId": "default.test1",
+      "purge": true
+    }
+  ]
+}
