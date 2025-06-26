@@ -28,30 +28,33 @@ RUN  set -xeu && \
      rm -rf /var/lib/apt/lists/*
 
 # Working directory for the application
-WORKDIR /usr/lib/iceberg-spark
+WORKDIR /usr/lib/iceberg-test
+ENV SPARK_VERSION=4.0.0
 
-# Install Spark
-ENV SPARK_VERSION=3.5.5
-RUN apt-get update && apt-get install -y curl unzip python3 python3-pip sqlite3
+# Copy the JAR file directly to the target location
+COPY --chown=iceberg:iceberg spark/v4.0/spark-runtime/build/libs/iceberg-spark-runtime-*.jar /usr/lib/iceberg-test/iceberg-spark-runtime.jar
 
-RUN curl -sL https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.tgz | tar xz -C /usr/lib/iceberg-spark/
-ENV SPARK_HOME=/usr/lib/iceberg-spark/spark-${SPARK_VERSION}-bin-hadoop3
-ENV PATH=$PATH:$SPARK_HOME/bin
+# Download Spark
+#RUN apt-get update && apt-get install -y curl unzip python3 python3-pip sqlite3
+#
+#RUN curl -sL https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.tgz | tar xz -C /usr/lib/iceberg-spark/
+#ENV SPARK_HOME=/usr/lib/iceberg-spark/spark-${SPARK_VERSION}-bin-hadoop3
+#ENV PATH=$PATH:$SPARK_HOME/bin
 
 # Install Hive
-RUN apt-get install -y hive libpq-dev
+RUN #apt-get install -y hive libpq-dev
 
 # Install Postgres
 
 # Copy Iceberg Spark runtime JARs (assumes local build volume mount)
-COPY iceberg-spark-runtime/ /opt/iceberg-jars/
+#COPY iceberg-spark-runtime/ /opt/iceberg-jars/
 
 # Copy catalog starter scripts
-COPY catalog-scripts/ /opt/catalog-scripts/
-RUN chmod +x /opt/catalog-scripts/*.sh
+#COPY catalog-scripts/ /opt/catalog-scripts/
+RUN #chmod +x /opt/catalog-scripts/*.sh
 
 # Set Spark defaults (e.g., prewire REST catalog or hive)
-COPY spark-defaults.conf $SPARK_HOME/conf/
+#COPY spark-defaults.conf $SPARK_HOME/conf/
 
 # Entry point lets you exec arbitrary commands like:
 # docker run iceberg-env bash /opt/catalog-scripts/start-rest.sh
