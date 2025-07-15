@@ -60,7 +60,7 @@ jobs:
       - name: Setup for images with Spark engine
         if: startsWith(matrix.engine, 'spark')
         run: |
-          ENGINE_VERSION=$(grep "^${{ matrix.engine }}" gradle/libs.versions.gradle | sed 's/.*= *"\(.*\)"/\1/')
+          ENGINE_VERSION=$(grep "^${{ matrix.engine }}" gradle/libs.versions.toml | sed 's/.*= *"\(.*\)"/\1/')
           echo "ENGINE_VERSION=$ENGINE_VERSION" >> "$GITHUB_ENV"
           
           CONNECTOR_VERSION=$(echo "$ENGINE_VERSION" | cut -d. -f1,2)
