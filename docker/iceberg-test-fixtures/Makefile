@@ -19,18 +19,26 @@
 
 BASE_PATH := docker/iceberg-test-fixtures
 
-ENGINE ?= spark
+ENGINE ?= spark-4.0.0
 STORAGE ?= minio
 CATALOG ?= rest
 
+ENGINE_NAME := $(word 1,$(subst -, ,$(ENGINE)))
+ENGINE_VERSION := $(word 2,$(subst -, ,$(ENGINE)))
+CONNECTOR_VERSION := v$(shell echo $(ENGINE_VERSION) | cut -d. -f1,2)
+
 ENGINE_BASE_IMAGE := apache/iceberg-engine-fixture-base
 STORAGE_ENGINE_IMAGE := apache/iceberg-engine-storage-fixture-base
-FULL_FIXTURE_IMAGE := apache/iceberg-$(ENGINE)-${STORAGE}-$(CATALOG)
+FULL_FIXTURE_IMAGE := apache/iceberg-engine-storage-catalog
 
 # Build the iceberg engine base image
 .PHONY: iceberg-engine
 iceberg-engine:
-	docker build -t $(ENGINE_BASE_IMAGE) -f ${BASE_PATH}/${ENGINE}-base/Dockerfile .
+	docker build \
+	--build-arg ENGINE_VERSION=$(ENGINE_VERSION) \
+	--build-arg CONNECTOR_VERSION=$(CONNECTOR_VERSION) \
+	-t $(ENGINE_BASE_IMAGE) \
+	-f ${BASE_PATH}/${ENGINE_NAME}-base/Dockerfile .
 
 # Build the iceberg engine image with storage
 .PHONY: iceberg-engine-storage
@@ -41,6 +49,7 @@ iceberg-engine-storage: iceberg-engine
 .PHONY: iceberg-engine-storage-catalog
 iceberg-engine-storage-catalog: iceberg-engine-storage
 	docker build -t $(FULL_FIXTURE_IMAGE) -f ${BASE_PATH}/${CATALOG}/Dockerfile .
+	docker tag $(FULL_FIXTURE_IMAGE) $(FULL_FIXTURE_IMAGE):latest-$(ENGINE_NAME)-$(ENGINE_VERSION)-$(STORAGE)-$(CATALOG)
 
 .PHONY: clean
 clean:
