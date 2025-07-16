@@ -38,8 +38,8 @@ iceberg-engine:
 	--load \
 	--build-arg ENGINE_VERSION=$(ENGINE_VERSION) \
 	--build-arg CONNECTOR_VERSION=$(CONNECTOR_VERSION) \
-	-tag $(ENGINE_BASE_IMAGE) \
-	-file ${BASE_PATH}/${ENGINE_NAME}-base/Dockerfile .
+	--tag $(ENGINE_BASE_IMAGE) \
+	--file ${BASE_PATH}/${ENGINE_NAME}-base/Dockerfile .
 
 # Build the iceberg engine image with storage
 .PHONY: iceberg-engine-storage
@@ -55,8 +55,8 @@ iceberg-engine-storage: iceberg-engine
 iceberg-engine-storage-catalog: iceberg-engine-storage
 	docker buildx build \
 		--load \
-		-tag $(FULL_FIXTURE_IMAGE) \
-		-file ${BASE_PATH}/${CATALOG}/Dockerfile .
+		--tag $(FULL_FIXTURE_IMAGE) \
+		--file ${BASE_PATH}/${CATALOG}/Dockerfile .
 	docker tag $(FULL_FIXTURE_IMAGE) $(FULL_FIXTURE_IMAGE):latest-$(ENGINE_NAME)-$(ENGINE_VERSION)-$(STORAGE)-$(CATALOG)
 
 .PHONY: clean
