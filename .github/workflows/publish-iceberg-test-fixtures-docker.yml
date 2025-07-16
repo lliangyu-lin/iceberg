@@ -75,19 +75,14 @@ jobs:
           image: tonistiigi/binfmt:qemu-v7.0.0-28
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Build image using Makefile
-        run: |
-          make -f docker/iceberg-test-fixtures/Makefile ENGINE=${{ env.ENGINE }} STORAGE=${{ matrix.storage }} CATALOG=${{ matrix.catalog }} iceberg-engine-storage-catalog
-          TAG="${{ env.ICEBERG_VERSION }}-${{ env.ENGINE }}-${{ matrix.storage }}-${{ matrix.catalog }}"
-          IMAGE="apache/iceberg-engine-storage-catalog"
-
-          docker tag $IMAGE ${{ env.DOCKER_REPOSITORY }}/iceberg:$TAG
       - name: Build and Push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/iceberg-test-fixtures/${{ matrix.catalog }}/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ${{ env.DOCKER_REPOSITORY }}/iceberg:${{ env.ICEBERG_VERSION }}-${{ env.ENGINE }}-${{ matrix.storage }}-${{ matrix.catalog }}
+        run: |
+          make -f docker/iceberg-test-fixtures/Makefile ENGINE=${{ env.ENGINE }} STORAGE=${{ matrix.storage }} iceberg-engine-storage
+          
+          VERSION="${{ env.ICEBERG_VERSION }}-${{ env.ENGINE }}-${{ matrix.storage }}-${{ matrix.catalog }}"
+          
+          docker buildx build \
+          --platform linux/amd64,linux/arm64 \
+          --push \
+          --tag ${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_TAG }}:$VERSION \
+          --file docker/iceberg-test-fixtures/${{ matrix.catalog }}/Dockerfile .

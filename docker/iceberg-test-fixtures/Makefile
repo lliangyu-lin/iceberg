@@ -34,8 +34,7 @@ FULL_FIXTURE_IMAGE := apache/iceberg-engine-storage-catalog
 # Build the iceberg engine base image
 .PHONY: iceberg-engine
 iceberg-engine:
-	docker buildx build \
-	--load \
+	docker build \
 	--build-arg ENGINE_VERSION=$(ENGINE_VERSION) \
 	--build-arg CONNECTOR_VERSION=$(CONNECTOR_VERSION) \
 	--tag $(ENGINE_BASE_IMAGE) \
@@ -44,17 +43,14 @@ iceberg-engine:
 # Build the iceberg engine image with storage
 .PHONY: iceberg-engine-storage
 iceberg-engine-storage: iceberg-engine
-	#docker build -t $(STORAGE_ENGINE_IMAGE) -f ${BASE_PATH}/${STORAGE}/Dockerfile .
-	docker buildx build \
-		  --load \
+	docker build \
 		  --tag $(STORAGE_ENGINE_IMAGE) \
 		  --file ${BASE_PATH}/${STORAGE}/Dockerfile .
 
 # Build the iceberg engine image with storage and catalog
 .PHONY: iceberg-engine-storage-catalog
 iceberg-engine-storage-catalog: iceberg-engine-storage
-	docker buildx build \
-		--load \
+	docker build \
 		--tag $(FULL_FIXTURE_IMAGE) \
 		--file ${BASE_PATH}/${CATALOG}/Dockerfile .
 	docker tag $(FULL_FIXTURE_IMAGE) $(FULL_FIXTURE_IMAGE):latest-$(ENGINE_NAME)-$(ENGINE_VERSION)-$(STORAGE)-$(CATALOG)
