@@ -82,7 +82,6 @@ jobs:
           IMAGE="apache/iceberg-engine-storage-catalog"
 
           docker tag $IMAGE ${{ env.DOCKER_REPOSITORY }}/iceberg:$TAG
-          docker push ${{ env.DOCKER_REPOSITORY }}/iceberg:$TAG
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
