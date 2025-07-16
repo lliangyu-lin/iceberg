@@ -38,8 +38,8 @@ make -f docker/iceberg-test-fixtures/Makefile ENGINE=spark-4.0.0 STORAGE=minio C
 ## Interactive Session
 ```bash
 docker run -d \
-  --name iceberg-spark-minio-rest \
-  apache/iceberg-spark-minio-rest
+  --name apache/iceberg:latest-spark-4.0.0-minio-rest \
+  iceberg-spark-minio-rest
 
 docker exec -it iceberg-spark-minio-rest bash
 

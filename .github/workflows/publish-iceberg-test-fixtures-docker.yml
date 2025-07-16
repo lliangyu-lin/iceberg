@@ -21,8 +21,6 @@ name: Build and Push 'iceberg-test-fixtures' Docker Images
 
 on:
   push:
-    branches:
-      - 'test-fixture-run-cd'
     tags:
       - 'apache-iceberg-[0-9]+.[0-9]+.[0-9]+'
   schedule:
@@ -30,7 +28,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_REPOSITORY: lianglin0516
+  DOCKER_REPOSITORY: apache
   DOCKER_IMAGE_TAG: iceberg
   ICEBERG: latest
 

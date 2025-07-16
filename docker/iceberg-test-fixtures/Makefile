@@ -29,7 +29,7 @@ ENGINE_NAME := $(word 1,$(subst -, ,$(ENGINE)))
 ENGINE_VERSION := $(word 2,$(subst -, ,$(ENGINE)))
 CONNECTOR_VERSION := v$(shell echo $(ENGINE_VERSION) | cut -d. -f1,2)
 
-DOCKER_REPO := lianglin0516/iceberg
+DOCKER_REPO := apache/iceberg
 PLATFORMS := linux/amd64,linux/arm64
 PUSH_FLAG :=
 ifeq ($(PUSH),true)
